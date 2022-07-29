@@ -28,7 +28,10 @@ public class MenuController {
 		ResponseEntity<String> entity=restTemplate.getForEntity(url, String.class);
 		return entity.getBody();
 	}	
-	
+	//资源复用时，需要额外携带调用方的AppId，否则就会报错：api unauthorized rid: 62e34bba-083ae8bb-5b9f65c1
+	private static String encodeAppID(String url) {
+		return url+"?from_appid=wxd443973223af430d";
+	}
 	@GetMapping("/create")
 	public static String createMenu() {
 		String url="https://api.weixin.qq.com/cgi-bin/menu/create";
