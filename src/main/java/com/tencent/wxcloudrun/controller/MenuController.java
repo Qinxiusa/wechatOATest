@@ -35,12 +35,14 @@ public class MenuController {
 	@GetMapping("/create")
 	public static String createMenu() {
 		String url="https://api.weixin.qq.com/cgi-bin/menu/create";
+		url=encodeAppID(url);
 		log.info("create menu:{}",url);
 		return getRequestEntity(url);
 	}
 	@PostMapping("/msg")
 	public static String getMessage() {
 		String url="https://api.weixin.qq.com/customservice/msgrecord/getmsglist";
+		url=encodeAppID(url);
 		log.info("get msg:{}",url);
 		
 //      设置请求头，请求类型为json
