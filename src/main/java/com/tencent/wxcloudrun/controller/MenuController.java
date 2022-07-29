@@ -53,4 +53,15 @@ public class MenuController {
 
 		return restTemplate.postForObject(url, request,String.class);	
 	}
+	@GetMapping("/test")
+	public static String feedbackMsg() {
+		log.info("test : do nothing");
+		return "test ok!";
+	}
+	
+	@GetMapping("/bd")
+	public static String startBaidu() {
+		log.info("start baidu test");
+		return getRequestEntity("www.baidu.com");
+	}
 }
