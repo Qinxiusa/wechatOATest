@@ -69,4 +69,12 @@ public class MenuController {
 		log.info("test : do nothing");
 		return "test ok!";
 	}
+	
+	@GetMapping("/token")
+	public static String getAccessToken() {
+		String url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxd443973223af430d&secret=54b2add49dc1aed04ae09a0927b27bd2";
+		log.info("get access token:{}",url);
+		return getRequestEntity(url);
+	}	
+	
 }
