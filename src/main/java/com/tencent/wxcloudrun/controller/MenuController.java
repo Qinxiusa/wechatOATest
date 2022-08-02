@@ -11,7 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,6 +40,9 @@ public class MenuController {
 	private static String encodeAppID(String url) {
 		return url+"?from_appid=wxd443973223af430d";
 	}
+	private static String responseSuccess() {
+		return "Success";
+	}
 	@GetMapping("/create")
 	public static String createMenu() {
 		String url="https://api.weixin.qq.com/cgi-bin/menu/create";
@@ -45,12 +50,28 @@ public class MenuController {
 		log.info("create menu:{}",url);
 		return getRequestEntity(url);
 	}
+	//在此接收微信传递过来的消息，需要在云托管->设置->全局设置中告知微信我们项目接收消息的入口
 	@PostMapping("/recv")
-	public static String onMessageEvent() {
+	@ResponseBody
+	public static String onMessageEvent(@RequestBody String body) {
 		
+		try {
+			JSONObject jsonBody=new JSONObject(body);
+			
+			if(jsonBody.optString("action")!=null) {
+				if(jsonBody.optString("action").contentEquals("CheckContainerPath")) {
+					log.info("check container path ok!");
+				}				
+			}else {
+				log.info("receive wechat msg:{}",jsonBody);
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			log.info("decode body error:",e.getMessage());
+		}
 		
-		
-		return "success";
+		return responseSuccess();
 	}
 	@GetMapping("/test")
 	public static String feedbackMsg() {
@@ -78,8 +99,7 @@ public class MenuController {
 			iplist=jsonarray.toString();
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.info("getip error:{}",e.getMessage());
 		}
 		
 		return iplist;
@@ -97,8 +117,7 @@ public class MenuController {
 			iplist=jsonarray.toString();
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.info("getcallbackip error:{}",e.getMessage());
 		}
 		
 		return iplist;		
