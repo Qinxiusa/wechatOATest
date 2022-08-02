@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/menu")
 @Slf4j
 public class MenuController {
 	
@@ -52,7 +51,6 @@ public class MenuController {
 	}
 	//在此接收微信传递过来的消息，需要在云托管->设置->全局设置中告知微信我们项目接收消息的入口
 	@PostMapping("/recv")
-	@ResponseBody
 	public static String onMessageEvent(@RequestBody String body) {
 		
 		try {
